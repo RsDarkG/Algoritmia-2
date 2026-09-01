@@ -19,18 +19,19 @@ public class PROYECTO {
 
             case 2:
                 System.out.println("Saliendo del sistema...");
-                break;
+                return;
 
             default:
                 System.out.println("Opción no válida");
+                return;
         }
         System.out.println();
 
         //MENU PRINCIPAL
-        mostrarMenuPrincipal();
-        opcion = scr.nextInt();
-        System.out.println();
         do {
+            mostrarMenuPrincipal();
+            opcion = scr.nextInt();
+            System.out.println();
             switch (opcion) {
                 case 1:
                     registrarEstudiantes(scr);
@@ -41,15 +42,7 @@ public class PROYECTO {
                     break;
 
                 case 3:
-                    if (estudiantes == null || calificaciones == null) {
-                        System.out.println("No hay datos de estudiantes o calificaciones registradas.");
-                        break;
-                    }
-
-                    for (int i = 0; i < calificaciones.length; i++) {
-                        double promedio = calcularPromedio(calificaciones[i]);
-                        System.out.println("El promedio del estudiante " + estudiantes[i] + " es: " + promedio);
-                    }
+                    mostrarPromediosEstudiantes();
                     break;
 
                 case 4:
@@ -64,17 +57,17 @@ public class PROYECTO {
                     encontrarPromedioMaximoMinimo();
                     break;
 
+                case 7:
+                    System.out.println("Saliendo del sistema...");
+                    break;
+
                 default:
                     System.out.println("Opción aún no implementada.");
+                    break;
             }
             System.out.println();
 
-            mostrarMenuPrincipal();
-            opcion = scr.nextInt();
-            System.out.println();
-
         } while (opcion != 7);
-        System.out.println("Saliendo del sistema...");
     }
 
 
@@ -148,6 +141,9 @@ public class PROYECTO {
             }
 
         }
+        System.out.println();
+        System.out.println("Estudiantes registrados correctamente.");
+        System.out.println();
     }
 
     //Mostrar el listado completo: nombre, número de identificación y calificaciones de cada estudiante.
@@ -159,6 +155,11 @@ public class PROYECTO {
         System.out.println("Listado completo de los estudiantes: ");
         for (int i = 0; i < estudiantes.length; i++) {
             System.out.println("Estudiante " + (i + 1) + ": " + estudiantes[i] + " - Identificacion: " + identificaciones[i]);
+            System.out.print("Calificaciones: ");
+            for (int j = 0; j < calificaciones[i].length; j++) {
+                System.out.print(calificaciones[i][j] + " | ");
+            }
+            System.out.println();
         }
     }
 
@@ -169,6 +170,19 @@ public class PROYECTO {
             suma += calificacion;
         }
         return suma / calificaciones.length;
+    }
+
+    public static void mostrarPromediosEstudiantes() {
+        if (estudiantes == null || calificaciones == null) {
+            System.out.println("No hay datos de estudiantes o calificaciones registradas.");
+            return;
+        }
+
+        System.out.println("--- Promedios de los estudiantes ---");
+        for (int i = 0; i < calificaciones.length; i++) {
+            double promedio = calcularPromedio(calificaciones[i]);
+            System.out.println("El promedio del estudiante " + estudiantes[i] + " es: " + promedio);
+        }
     }
 
     //Buscar un estudiante por número de identificación (recorriendo el vector de identificación) y mostrar su
