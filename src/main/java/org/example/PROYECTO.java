@@ -6,11 +6,12 @@ public class PROYECTO {
 
     public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
-
+        
+        //MENU INICIAL
         mostrarMenuInicial();
         int opcion = scr.nextInt();
         System.out.println();
-
+        
         switch (opcion) {
             case 1:
                 registrarEstudiantes(scr);
@@ -25,6 +26,7 @@ public class PROYECTO {
         }
         System.out.println();
 
+        //MENU PRINCIPAL
         mostrarMenuPrincipal();
         opcion = scr.nextInt();
         System.out.println();
@@ -39,12 +41,28 @@ public class PROYECTO {
                     break;
 
                 case 3:
+                    if (estudiantes == null || calificaciones == null) {
+                        System.out.println("No hay datos de estudiantes o calificaciones registradas.");
+                        break;
+                    }
+
                     for (int i = 0; i < calificaciones.length; i++) {
                         double promedio = calcularPromedio(calificaciones[i]);
                         System.out.println("El promedio del estudiante " + estudiantes[i] + " es: " + promedio);
                     }
                     break;
 
+                case 4:
+                    buscarPorIdentificacion(scr);
+                    break;
+
+                case 5:
+                    ordenarCalificacion(scr);
+                    break;
+
+                case 6:
+                    encontrarPromedioMaximoMinimo();
+                    break;
 
                 default:
                     System.out.println("Opción aún no implementada.");
@@ -60,7 +78,9 @@ public class PROYECTO {
     }
 
 
-    //MENU INICIAL
+    //MENUS
+
+    //Menu inicial
     public static void mostrarMenuInicial() {
         System.out.println("******** Bienvenido al Sistema de Gestión Académica ********");
         System.out.println("Por favor, seleccione una opción:");
@@ -68,10 +88,29 @@ public class PROYECTO {
         System.out.println("2. Salir");
     }
 
+    //Menu principal
+    public static void mostrarMenuPrincipal() {
+        System.out.println("******** Menú Principal ********");
+        System.out.println("Por favor, seleccione una opción:");
+        System.out.println("1. Registrar estudiantes");
+        System.out.println("2. Mostrar listado completo de los estudiantes");
+        System.out.println("3. Calcular promedio de cada estudiante");
+        System.out.println("4. Buscar un estudiante por su número de identificación");
+        System.out.println("5. Ordenar las calificaciones de un estudiante de menor a mayor");
+        System.out.println("6. Encontrar y mostrar el estudiante con el promedio mas alto y mas bajo");
+        System.out.println("7. Salir");
+    }
+
+
+
+
+    //FUNCIONES
     static String[] estudiantes;
     static long[] identificaciones;
     static double[][] calificaciones;
 
+    //Registrar estudiantes: llenar el vector de nombres, el vector de números de identificación y la matriz de
+    //calificaciones a partir de datos ingresados por el usuario.
     public static void registrarEstudiantes(Scanner scr) {
 
         System.out.println("Ingrese el número de estudiantes a registrar: ");
@@ -108,23 +147,10 @@ public class PROYECTO {
                 calificaciones[i][j] = scr.nextDouble();
             }
 
-
         }
     }
 
-    //MENU PRINCIPAL
-    public static void mostrarMenuPrincipal() {
-        System.out.println("******** Menú Principal ********");
-        System.out.println("Por favor, seleccione una opción:");
-        System.out.println("1. Registrar estudiantes");
-        System.out.println("2. Mostrar listado completo de los estudiantes");
-        System.out.println("3. Calcular promedio de cada estudiante");
-        System.out.println("4. Buscar un estudiante por su número de identificación");
-        System.out.println("5. Ordenar las calificaciones de un estudiante de menor a mayor");
-        System.out.println("6. Encontrar y mostrar el estudiante con el promedio mas alto y mas bajo");
-        System.out.println("7. Salir");
-    }
-
+    //Mostrar el listado completo: nombre, número de identificación y calificaciones de cada estudiante.
     public static void mostrarListadoCompleto() {
         if (estudiantes == null || identificaciones == null) {
             System.out.println("No hay estudiantes registrados.");
@@ -132,10 +158,11 @@ public class PROYECTO {
         }
         System.out.println("Listado completo de los estudiantes: ");
         for (int i = 0; i < estudiantes.length; i++) {
-            System.out.println("Estudiante " + (i + 1) + ": " + estudiantes[i] + " - ID: " + identificaciones[i]);
+            System.out.println("Estudiante " + (i + 1) + ": " + estudiantes[i] + " - Identificacion: " + identificaciones[i]);
         }
     }
 
+    //Calcular el promedio de cada estudiante (recorriendo su fila en la matriz).
     static double calcularPromedio(double[] calificaciones) {
         double suma = 0;
         for (double calificacion : calificaciones) {
@@ -143,6 +170,147 @@ public class PROYECTO {
         }
         return suma / calificaciones.length;
     }
+
+    //Buscar un estudiante por número de identificación (recorriendo el vector de identificación) y mostrar su
+    //nombre, sus calificaciones y su promedio.
+    public static void buscarPorIdentificacion(Scanner scr){
+      if (estudiantes == null || identificaciones == null){
+        System.out.println("No hay estudiantes registrados");
+        return;
+
+      }
+
+      System.out.println("Ingrese el numero de identificacion a buscar:");
+      long idBuscada = scr.nextLong();
+      scr.nextLine();
+
+      boolean encontrado = false;
+
+      for (int i = 0; i < identificaciones.length; i++){
+
+          if (identificaciones[i]== idBuscada){
+
+              encontrado = true;
+
+              System.out.println();
+              System.out.println("--- Estudiante encontrado ---");
+              System.out.println("Nombre: "+ estudiantes[i]);
+              System.out.println("Identificacion: "+ identificaciones[i]);
+
+              System.out.print("Calificaciones ");
+              for(int j = 0; j < calificaciones[i].length; j++){
+                  System.out.print(calificaciones[i][j]+ " | ");
+
+              }
+              System.out.println();
+              double promedio = calcularPromedio(calificaciones[i]);
+              System.out.println("Promedio: " + promedio);
+              break;
+          }
+      }
+        System.out.println();
+
+       if (!encontrado){
+
+        System.out.println("No se encontro nigun estudiante con esta identificacion");
+       }
+
+
+    }
+
+    //Ordenar la matriz de calificaciones de un estudiante específico (por fila) de menor a mayor.
+    public static void ordenarCalificacion(Scanner scr){
+        if (estudiantes == null || identificaciones == null){
+            System.out.println("No hay estudiantes registrados");
+            return;
+        }
+
+        System.out.println("Ingrese el numero de identificacion del estudiante a ordenar sus calificaciones:");
+        long idBuscada = scr.nextLong();
+        scr.nextLine();
+
+        int posicion = -1;
+
+        for (int i = 0; i < identificaciones.length; i++) {
+            if (identificaciones[i]== idBuscada){
+                posicion = i;
+                break;
+            }
+        }
+
+        if (posicion == -1){
+            System.out.println("No se encontro nigun estudiante con esta identificacion");
+            return;
+        }
+
+        for (int k = 0; k < calificaciones[posicion].length - 1; k++) {
+            for (int l = 0; l < calificaciones[posicion].length - 1 - k; l++) {
+                if (calificaciones[posicion][l] > calificaciones[posicion][l + 1]) {
+                    double temp = calificaciones[posicion][l];
+                    calificaciones[posicion][l] = calificaciones[posicion][l + 1];
+                    calificaciones[posicion][l + 1] = temp;
+                }
+            }
+        }
+
+
+        System.out.println();
+        System.out.println("Calificaciones ordenadas de menor a mayor del estudiante " + estudiantes[posicion] + " con identificacion: " + idBuscada);
+
+        System.out.print("Calificaciones ");
+        for(int i = 0; i < calificaciones[posicion].length; i++){
+            System.out.print(calificaciones[posicion][i]+ " | ");
+
+        }
+        System.out.println();
+    }
+
+
+
+    //Encontrar y mostrar el estudiante con el promedio más alto y el más bajo.
+    public static void encontrarPromedioMaximoMinimo(){
+        if (estudiantes == null || calificaciones == null){
+        System.out.println("No hay estudiantes registrados.");
+        return;
+            }
+
+        int indiceMax = 0;
+        int indiceMin = 0;
+        double promedioMax = calcularPromedio(calificaciones[0]);
+        double promedioMin = calcularPromedio(calificaciones[0]);
+
+        for (int i = 1; i < calificaciones.length; i++){
+        double promedioActual = calcularPromedio(calificaciones[i]);
+
+        if (promedioActual > promedioMax){
+            promedioMax = promedioActual;
+            indiceMax = i;
+        }
+
+        if (promedioActual < promedioMin){
+            promedioMin= promedioActual;
+            indiceMin = i;
+            }
+        }
+
+          System.out.println();
+              System.out.println("--- Estudiante con el promedio mas alto ---");
+              System.out.println("Nombre: "+ estudiantes[indiceMax]);
+              System.out.println("Identificacion: "+ identificaciones[indiceMax]);
+              System.out.println("Promedio: "+ promedioMax);
+        System.out.println();
+
+         System.out.println();
+              System.out.println("--- Estudiante con el promedio mas bajo ---");
+              System.out.println("Nombre: "+ estudiantes[indiceMin]);
+              System.out.println("Identificacion: "+ identificaciones[indiceMin]);
+              System.out.println("Promedio: "+ promedioMin);
+        System.out.println();
+
+
+    }
+
+
 }
 
 
