@@ -10,10 +10,11 @@ public class SistemaNomina {
         Scanner scr = new Scanner(System.in);
 
         ArrayList<Empleado> listaEmpleados = new ArrayList<>();
+        int opcion = 0;
 
         do {
             mostrarMenuInicial();
-            int opcion = scr.nextInt();
+            opcion = scr.nextInt();
             System.out.println();
 
             switch (opcion) {
@@ -52,7 +53,7 @@ public class SistemaNomina {
                             System.out.println("Empleado por horas agregado con éxito.");
                             break;
 
-                            break;
+
                         case 3:
                             System.out.println("--- Agregar Gerente ---");
                             System.out.print("Ingrese el nombre: ");
@@ -76,23 +77,56 @@ public class SistemaNomina {
                     }
                     break;
                 case 2:
+                if (listaEmpleados.isEmpty()){
+                    System.out.println("No hay empleados registrados");
+
+                }else{
+                System.out.println("--Lista de empleados--");
+
+                for (Empleado e : listaEmpleados){
+
+                    e.mostrarInfo();
+                }
+                }
+                break;
+
+
+
+                case 3:
+
+                System.out.println("--Total de nómina--");
+                double total = 0;
+                for(Empleado e : listaEmpleados){
+                    total += e.calcularSalario();
+
+
+                }
+                System.out.println("Total de la nomina: "+ total);
+                break;
+
+                case 4:
+                    System.out.println("Saliendo del sistema...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
 
 
             }
-        } while (opcion != 4);
-        scr.close();
+        } while ( opcion != 4);
+
     }
 
         //METODOS
 
-        //Menu inicial
+        //Menu registrar empleado
         public static void mostrarMenuRegistrar () {
+            System.out.println("--- Tipo de empleado a registrar ---");
             System.out.println("1. Agregar empleado fijo");
-            System.out.println("2. Lista de empleados");
-            System.out.println("3. Total de nomina");
-            System.out.println("4. Salir");
+            System.out.println("2. Agregar empleado por horas");
+            System.out.println("3. Agregar gerente");
+            System.out.println("4. Volver al menú principal");
         }
-
+        //Menu inicial
         public static void mostrarMenuInicial () {
             System.out.println("1. Registrar empleado");
             System.out.println("2. Ver lista de empleados");
@@ -108,7 +142,7 @@ public class SistemaNomina {
     //calcularSalario(). Método concreto mostrarInfo() que use calcularSalario().
     abstract class Empleado {
 
-    // las subclases acceden a protected
+
     protected String nombre;
     protected double salarioBase;
 
@@ -117,10 +151,10 @@ public class SistemaNomina {
         this.salarioBase = salarioBase;
     }
 
-    // cada subclase define su formula
+
     public abstract double calcularSalario();
 
-    // java define cual usar
+
     public void mostrarInfo() {
         System.out.println("Nombre: " + nombre + ", Salario: " + calcularSalario());
     }
