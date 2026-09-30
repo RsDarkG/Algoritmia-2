@@ -25,6 +25,8 @@ public class SistemaNomina {
                     scr.nextLine();
 
                     switch (subOpcion) {
+
+                        //Registrar un nuevo empleado, eligiendo su tipo (Fijo, Por Horas o Gerente) e ingresando sus datos.
                         case 1:
                             System.out.println("--- Agregar Empleado Fijo ---");
                             System.out.print("Ingrese el nombre: ");
@@ -76,6 +78,8 @@ public class SistemaNomina {
                             System.out.println("Opción inválida");
                     }
                     break;
+
+                //Mostrar el listado completo de empleados registrados, con su salario calculado (usando mostrarInfo()).
                 case 2:
                 if (listaEmpleados.isEmpty()){
                     System.out.println("No hay empleados registrados");
@@ -86,14 +90,14 @@ public class SistemaNomina {
                 for (Empleado e : listaEmpleados){
 
                     e.mostrarInfo();
-                }
+                    }
                 }
                 break;
 
 
-
+                //Calcular y mostrar el total de la nómina (la suma del salario de TODOS los empleados registrados, sin importar
+                //su tipo).
                 case 3:
-
                 System.out.println("--Total de nómina--");
                 double total = 0;
                 for(Empleado e : listaEmpleados){
@@ -104,6 +108,7 @@ public class SistemaNomina {
                 System.out.println("Total de la nomina: "+ total);
                 break;
 
+                //Salir del programa de forma controlada.
                 case 4:
                     System.out.println("Saliendo del sistema...");
                     break;
