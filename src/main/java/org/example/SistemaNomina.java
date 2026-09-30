@@ -39,6 +39,7 @@ public class SistemaNomina {
 
                             listaEmpleados.add(new EmpleadoFijo(nombreFijo, salarioBaseFijo, bonoFijo));
                             System.out.println("Empleado fijo agregado con éxito.");
+                            System.out.println();
                             break;
 
                         case 2:
@@ -53,6 +54,7 @@ public class SistemaNomina {
 
                             listaEmpleados.add(new EmpleadoPorHoras(nombreHoras, 0, horasTrabajadas, valorHora));
                             System.out.println("Empleado por horas agregado con éxito.");
+                            System.out.println();
                             break;
 
 
@@ -70,6 +72,7 @@ public class SistemaNomina {
 
                             listaEmpleados.add(new Gerente(nombreGerente, salarioBaseGerente, bonoGerente, bonoGerencial));
                             System.out.println("Gerente agregado con éxito.");
+                            System.out.println();
                             break;
                         case 4:
                             System.out.println("Regresando al menú principal...");
@@ -83,6 +86,7 @@ public class SistemaNomina {
                 case 2:
                 if (listaEmpleados.isEmpty()){
                     System.out.println("No hay empleados registrados");
+                    System.out.println();
 
                 }else{
                 System.out.println("--Lista de empleados--");
@@ -92,6 +96,7 @@ public class SistemaNomina {
                     e.mostrarInfo();
                     }
                 }
+                    System.out.println();
                 break;
 
 
@@ -106,6 +111,7 @@ public class SistemaNomina {
 
                 }
                 System.out.println("Total de la nomina: "+ total);
+                System.out.println();
                 break;
 
                 //Salir del programa de forma controlada.
@@ -133,6 +139,7 @@ public class SistemaNomina {
         }
         //Menu inicial
         public static void mostrarMenuInicial () {
+            System.out.println("--- Menu Principal ---");
             System.out.println("1. Registrar empleado");
             System.out.println("2. Ver lista de empleados");
             System.out.println("3. Ver total de nómina");
